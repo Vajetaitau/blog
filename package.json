@@ -4,12 +4,20 @@
     "private": true,
     "scripts": {
         "blog-server": "nodemon ./blog-server/app.js",
-        "blog-data-server": "nodemon ./blog-data-server/app.js"
+        "blog-data-server": "nodemon ./blog-data-server/app.js",
+        "gulp": "gulp",
+        "gulp-build-common-lib": "gulp build-common-lib"
     },
     "dependencies": {
         "express": "*"
     },
     "devDependencies": {
-        "nodemon": "*"
+        "nodemon": "*",
+
+        "//": "Frontend build tools",
+        "gulp": "3.9.1",
+
+        "//": "Development libraries",
+        "lodash": "4.17.10"
     }
 }

@@ -9,12 +9,32 @@
 <script type="text/javascript" src="./vue-app.js" defer></script>
 </head>
 
-<body>
-Content of the document......
+<body id="app">
+    <header>
+        This is header!
+    </header>
 
-<div id="app">
-    {{ message }}
-</div>
+    <nav id="navigationMenu">
+        <li v-for="menuItem in mainMenu.items">
+            <a href="#">{{ menuItem.name }}</a>
+        </li>
+    </nav>
+
+    <article>
+        Individual compoenent, which is self sustainable :)
+        <section>
+            A section of a component
+        </section>
+        <section>
+            Another section
+            Content of the document......
+            {{ message }}
+        </section>        
+    </article>
+
+    <footer>
+        This is footer!
+    </footer>
 </body>
 
 </html>
