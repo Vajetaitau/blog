@@ -9,15 +9,15 @@
         "gulp-build-common-lib": "gulp build-common-lib"
     },
     "dependencies": {
-        "express": "*"
+        "express": "*",
+        "vue": "2.5.16",
+        "lodash": "4.17.10"
     },
     "devDependencies": {
         "nodemon": "*",
-
-        "//": "Frontend build tools",
         "gulp": "3.9.1",
-
-        "//": "Development libraries",
-        "lodash": "4.17.10"
+        "gulp-concat": "2.6.1",
+        "gulp-rename": "1.2.2",
+        "gulp-uglify": "3.0.0"
     }
 }

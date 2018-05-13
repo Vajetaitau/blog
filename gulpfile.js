@@ -1,5 +1,9 @@
 var gulp = require('gulp');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify')
+
 var _ = require('lodash');
+var path = require('path');
 
 gulp.task('default', function(done) {
     console.log('Default gulp task!');
@@ -12,9 +16,22 @@ gulp.task('default', function(done) {
  * each and every browserified application. 
  */
 gulp.task('build-common-lib', function(done) {
-    var paths = [];
-    _.forEach(['xx', 'aaaa'], function(path) {
-        console.log(path);
+    var nodeModules = path.join(__dirname + '/node_modules');
+    var libraries = {
+        // ...
+        'browser': {
+            'vue': 'vue/dist/vue.min.js'
+        }
+    };
+
+    var libraryPaths = [];
+    _.forOwn(libraries['browser'], function(value, key) {
+        console.log(path.join(nodeModules, value));
+        libraryPaths.push(path.join(nodeModules, value));
     });
-    done();
+
+    return gulp.src(libraryPaths)
+        .pipe(concat('vendor.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(path.join(__dirname, '/lib')));
 });
