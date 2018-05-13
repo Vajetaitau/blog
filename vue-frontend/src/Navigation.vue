@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav id="navigation">
     <a :key="index" v-for="(menuItem, index) in menuItems" href="xasd">
       {{ menuItem.name }}
     </a>
@@ -20,8 +20,11 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+h1,
+h2 {
+  font-weight: normal;
+}
 </style>
 
 
