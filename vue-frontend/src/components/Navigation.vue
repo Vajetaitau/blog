@@ -21,9 +21,14 @@ export default {
 </script>
 
 <style lang="scss">
-h1,
-h2 {
-  font-weight: normal;
+#navigation {
+  display: flex;
+  background-color: black;
+
+  a {
+    color: white;
+    padding: 12px 24px;
+  }
 }
 </style>
 
