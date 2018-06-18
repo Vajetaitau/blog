@@ -2,16 +2,14 @@
   <div id="app">
     <Navigation />
 
-    <LabelAndInput label="Username" :value.sync="msg"/>
-    <LabelAndInput label="Password" />
-
-    <h1>{{ msg }}</h1>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Navigation from "./components/Navigation.vue";
 import LabelAndInput from "./components/LabelAndInput.vue";
+import LabelAndValue from "./components/LabelAndValue.vue";
 
 export default {
   name: "app",

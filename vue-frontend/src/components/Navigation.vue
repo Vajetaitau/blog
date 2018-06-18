@@ -1,8 +1,6 @@
 <template>
   <nav id="navigation">
-    <a :key="index" v-for="(menuItem, index) in menuItems" href="xasd">
-      {{ menuItem.name }}
-    </a>
+    <router-link :to="menuItem.to" :key="index" v-for="(menuItem, index) in menuItems">{{ menuItem.name }}</router-link>
   </nav>
 </template>
 
@@ -12,8 +10,8 @@ export default {
   data() {
     return {
       menuItems: [
-        { name: "First link" },
-        { name: "Secaaaa link" }
+        { name: "Resume", to: "/foo" },
+        { name: "Games", to: "/bar" }
       ]
     };
   }

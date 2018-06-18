@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "vue": "^2.5.11",
-    "vue-uniq-ids": "1.0.0"
+    "vue-uniq-ids": "1.0.0",
+    "vue-router": "3.0.1",
+    "node-fetch": "2.1.2"
   },
   "browserslist": [
     "> 1%",

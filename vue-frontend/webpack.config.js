@@ -70,6 +70,10 @@ module.exports = {
     ]
   },
   resolve: {
+    modules: [
+      path.join(__dirname, 'src/services'),
+      path.join(__dirname, 'node_modules'),
+    ],
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
     },
