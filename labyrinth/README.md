@@ -24,3 +24,9 @@ Gebėjimai gali būti atstumas, kuriuo matai į tolį. Greitis kokio aukščio s
 toli gali numesti granatą ar dar ką nors, kas galėtų sunaikinti patranką. Reikia sugalvoti, kaip padaryti tai, kad neapsimokėtų
 statyti patrankų prie pradinio regiono, kur atsiranda nauji žaidėjai. Ir padaryti taip, kad jie galėtų kaip nors patobulėti ir
 nebūtų pastoviai sprogdinami.
+
+Labirinto generavimo algoritmas:
+
+Reikalavimai: 
+1) labirintas turi būti begalinis, taigi labirintas turi būti generuojamas, kai žmonės priartėja prie ribos, kur dar niekas nebuvo.
+2) labirintas turi būti ganėtinai uždaras, ir keliai turėtų būti gana ilgi. Keliai turėtų viniotis aplinkui ir kuo mažiau plėsti.
