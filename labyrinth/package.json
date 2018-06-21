@@ -9,24 +9,24 @@
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
         "develop-on-build": "nodemon ./dist/bundle.js",
         "develop-on-save": "webpack --watch",
-        "test": "mocha ./src/**/*-test.js --require babel-register "
+        "test": "mocha ./src/**/*-test.js --require @babel/register "
     },
     "dependencies": {
         "cors": "2.8.4",
         "lodash": "4.17.10"
     },
     "devDependencies": {
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babel-preset-env": "^1.6.0",
-        "babel-preset-stage-3": "^6.24.1",
-        "babel-register": "6.26.0",
+        "@babel/core": "7.0.0-beta.51",
+        "@babel/preset-env": "7.0.0-beta.51",
+        "@babel/register": "7.0.0-beta.51",
+        "babel-loader": "7.1.4",
         "cross-env": "^5.0.5",
         "webpack": "4.11.1",
         "webpack-cli": "3.0.3",
         "webpack-node-externals": "1.7.2",
         "nodemon": "1.17.5",
         "nodemon-webpack-plugin": "next",
-        "mocha": "5.2.0"
+        "mocha": "5.2.0",
+        "jimp": "0.2.28"
     }
 }
