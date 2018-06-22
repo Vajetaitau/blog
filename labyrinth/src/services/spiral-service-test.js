@@ -7,9 +7,14 @@ describe('SpiralService', function () {
             assert.strictEqual(SpiralService.getNextSpiralPoint(), true, "Should be true");
         });
     });
-    describe("#getSpiralPoints", function() {
-        it("Should be straight line", function() {
-            assert.strictEqual(SpiralService.getSpiralPoints(1440 * 4), null);
+    // describe("#getSpiralPoints", function() {
+    //     it("Should be straight line", function() {
+    //         assert.strictEqual(SpiralService.getSpiralPoints(1440 * 4), null);
+    //     });
+    // });
+    describe("#getMustVisitSpiralPoints", function() {
+        it("3 loops should have 54 points", function() {
+            assert.strictEqual(SpiralService.getMustVisitSpiralPoints(3).length, 54);
         });
     });
 });

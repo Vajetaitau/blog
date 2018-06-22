@@ -24,7 +24,12 @@ function getSpiralPoints(amountOfPoints) {
         });    
         
         _.forEach(spiralPoints, function(point) {
-            image.setPixelColor(Jimp.rgbaToInt(0, 0, 0, 255), point.x + 500, point.y + 500);   
+            image.setPixelColor(Jimp.rgbaToInt(0, 0, 0, 255), point.y + 500, point.x + 500);   
+        });
+
+        console.log(getMustVisitSpiralPoints());
+        _.forEach(getMustVisitSpiralPoints(), function(point) {
+            image.setPixelColor(Jimp.rgbaToInt(255, 0, 0, 255), point.y + 500, point.x + 500);   
         });
 
         image.write("test.png", (err) => {
@@ -36,7 +41,7 @@ function getSpiralPoints(amountOfPoints) {
 }
 
 function getSpiralPoint(angle) {
-    var cofA = 0.5, cofB = 0.15, e = 2.71828;
+    var cofA = 0.1, cofB = 0.45, e = 2.71828;
 
     // Polar coordinates
     var angleInRadius = angle / 180 * Math.PI;
@@ -49,11 +54,30 @@ function getSpiralPoint(angle) {
     return { x: x, y: y };
 }
 
+function getMustVisitSpiralPoints(loops) {
+    var angles = [0, 360];
+
+    _.times(loops, function(index) {
+        addCircle(360 * (index + 1), 90 / Math.pow(3, index));
+    });
+
+    function addCircle(beginAt, step) {
+        _.times(360 / step, function(index) {
+            angles.push(beginAt + step * (index + 1));
+        });
+    }
+
+    return _.map(angles, function(angle) {
+        return getSpiralPoint(angle);
+    });
+}
+
 function getNextSpiralPoint(spiral) {
     return true;
 }
 
 export default {
     getNextSpiralPoint: getNextSpiralPoint,
-    getSpiralPoints: getSpiralPoints
+    getSpiralPoints: getSpiralPoints,
+    getMustVisitSpiralPoints: getMustVisitSpiralPoints
 }
