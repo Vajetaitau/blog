@@ -1,5 +1,8 @@
 class DirectionalProbability {
-    constructor(direction, probability) {
+    private _direction: string;
+    private _probability: number;
+
+    constructor(direction: string, probability: number) {
         this._direction = direction;
         this._probability = probability;
     }

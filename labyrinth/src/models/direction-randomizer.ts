@@ -1,15 +1,18 @@
-import _ from "lodash"
+import * as _ from "lodash"
+import DirectionalProbability from "./directional-probability";
 
 class DirectionRandomizer {
-    constructor (directionalProbabilities) {
+    private _probabilityMap: Array<string>;
+
+    constructor (directionalProbabilities: Array<DirectionalProbability>) {
         let self = this;
         self._probabilityMap = [];
-        _.forEach(directionalProbabilities, function(directionalProbability) {
+        directionalProbabilities.forEach(function(directionalProbability) {
             var percents = Math.ceil(directionalProbability.probability * 100);
             _.times(percents, function(i) {
                 self._probabilityMap.push(directionalProbability.direction);
             });
-        });        
+        });    
     }
 
     randomDirection() {

@@ -1,13 +1,12 @@
 import Direction from "../enums/direction"
 
 class Point {
-    constructor(x, y) {
+    private _x: number;
+    private _y: number;
+
+    constructor(x: number, y: number) {
         this._x = x;
         this._y = y;
-    }
-
-    static from(json) {
-        return new this(json.x, json.y);
     }
 
     get x() {
@@ -34,7 +33,7 @@ class Point {
         return new Point(this.x - 1, this.y);
     }
 
-    pointInDirection(direction) {
+    pointInDirection(direction: string) {
         if (direction === Direction.NORTH) {
             return this.northPoint;
         } else if (direction === Direction.SOUTH) {

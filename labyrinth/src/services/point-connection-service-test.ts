@@ -1,5 +1,6 @@
-import _ from "lodash"
-import assert from "assert"
+import * as _ from "lodash"
+import * as Mocha from "mocha"
+import * as Chai from "chai"
 import PointConnectionService from "./point-connection-service"
 import Point from "../models/point"
 
@@ -9,7 +10,7 @@ describe("PointConnectionService", function () {
             var startPoint = new Point(0, 0);
             var endPoint = new Point(10, 0);
             var path = new PointConnectionService().connectPoints(startPoint, endPoint);
-            assert.strictEqual(path.length > 10, true, path);
+            Chai.assert.strictEqual(path.length > 10, true, "fix this");
         });
     });
 });

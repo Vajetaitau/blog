@@ -1,4 +1,4 @@
-import _ from "lodash"
+import * as _ from "lodash"
 import DistanceService from "./distance-service"
 import DirectionalProbability from "../models/directional-probability"
 import Point from "../models/point"
@@ -6,7 +6,7 @@ import Path from "../models/path"
 import Direction from "../enums/direction"
 
 class MoveOptionsService {
-    availableOptions(takenPath, currentPoint) {
+    availableOptions(takenPath: Path, currentPoint: Point) {
         if (!(takenPath instanceof Path && currentPoint instanceof Point)) {
             throw new Error("Incorrect parameters.");
         } 
@@ -27,7 +27,7 @@ class MoveOptionsService {
         return options;
     }
 
-    availableOptionsProbabilities(takenPath, currentPoint, endPoint) {
+    availableOptionsProbabilities(takenPath: Path, currentPoint: Point, endPoint: Point) {
         let options = this.availableOptions(takenPath, currentPoint);
         let directionalDistance = new DistanceService().directionalDistance(currentPoint, endPoint);
 

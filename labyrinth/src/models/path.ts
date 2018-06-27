@@ -1,33 +1,31 @@
-import _ from "lodash"
+import * as _ from "lodash"
 import Point from "./point"
 
 class Path {
-    constructor(path) {
+    private _path: Array<Point>;
+
+    constructor(path : Array<Point>) {
         let self = this;
         self._path = [];
         
         if (arguments.length > 1) { // point1, point2, ...
             _.forEach(arguments, function(point) {
-                point = Point.from(point);
                 self._path.push(point);
             });
         } else { // array
             if (path) {
                 _.forEach(path, function(point) {
-                    point = Point.from(point);
                     self._path.push(point);
                 });
             }            
         }
     }
 
-    contains(point) {
-        point = Point.from(point);
+    contains(point: Point) {
         return !!_.find(this._path, point);
     }
     
-    add(point) {
-        point = Point.from(point);
+    add(point: Point) {
         this._path.push(point);
     }
 

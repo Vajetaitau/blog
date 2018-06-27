@@ -1,8 +1,9 @@
 import Direction from "../enums/direction"
 import DirectionalDistance from "../models/directional-distance"
+import Point from "../models/point";
 
 class DistanceService {
-    directionalDistance(startPoint, endPoint) {
+    directionalDistance(startPoint: Point, endPoint: Point) {
         var directions = [];
         var xDistance = endPoint.x - startPoint.x;
         var yDistance = endPoint.y - startPoint.y;

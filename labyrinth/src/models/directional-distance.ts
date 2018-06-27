@@ -1,5 +1,8 @@
 class DirectionalDistance {
-    constructor(direction, distance) {
+    private _direction: string;
+    private _distance: number;
+
+    constructor(direction: string, distance: number) {
         this._direction = direction;
         this._distance = distance;
     }
