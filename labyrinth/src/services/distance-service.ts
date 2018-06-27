@@ -5,8 +5,8 @@ import Point from "../models/point";
 class DistanceService {
     directionalDistance(startPoint: Point, endPoint: Point) {
         var directions = [];
-        var xDistance = endPoint.x - startPoint.x;
-        var yDistance = endPoint.y - startPoint.y;
+        var xDistance = Math.abs(endPoint.x - startPoint.x);
+        var yDistance = Math.abs(endPoint.y - startPoint.y);
     
         if (xDistance > 0) {
             directions.push(new DirectionalDistance(Direction.EAST, xDistance));
