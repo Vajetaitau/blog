@@ -10,7 +10,7 @@ describe("PointConnectionService", function () {
             var startPoint = new Point(0, 0);
             var endPoint = new Point(10, 0);
             var path = new PointConnectionService().connectPoints(startPoint, endPoint);
-            Chai.assert.strictEqual(path.length > 10, true, "fix this");
+            Chai.assert.isTrue(path.length > 10);
         });
     });
 });

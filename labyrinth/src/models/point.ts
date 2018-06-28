@@ -17,31 +17,31 @@ class Point {
         return this._y;
     }
 
-    get northPoint() {
+    public northPoint(): Point {
         return new Point(this.x, this.y + 1);
     }
 
-    get southPoint() {
+    public southPoint(): Point {
         return new Point(this.x, this.y - 1);
     }
 
-    get eastPoint() {
+    public eastPoint(): Point {
         return new Point(this.x + 1, this.y);
     }
 
-    get westPoint() {
+    public westPoint(): Point {
         return new Point(this.x - 1, this.y);
     }
 
-    pointInDirection(direction: string) {
+    public pointInDirection(direction: string): Point {
         if (direction === Direction.NORTH) {
-            return this.northPoint;
+            return this.northPoint();
         } else if (direction === Direction.SOUTH) {
-            return this.southPoint;
+            return this.southPoint();
         } else if (direction === Direction.EAST) {
-            return this.eastPoint;
+            return this.eastPoint();
         } else if (direction === Direction.WEST) {
-            return this.westPoint;
+            return this.westPoint();
         } else {
             console.log(direction);
             throw new Error("Wrong direction specified!");
