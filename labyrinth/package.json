@@ -9,19 +9,24 @@
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
         "develop-on-build": "nodemon ./dist/bundle.js",
         "develop-on-save": "webpack --watch",
-        "test": "mocha ./src/**/*-test.ts --require ts-node/register"
+        "test": "mocha ./test/**/*-test.ts --require ts-node/register",
+        "init-tables": "ts-node ./src/init/init-tables.ts",
+        "init-test-data": "ts-node ./src/init/init-test-data.ts"
     },
     "dependencies": {
         "cors": "2.8.4",
-        "lodash": "4.17.10"
+        "lodash": "4.17.10",
+        "pg": "7.4.3"
     },
     "devDependencies": {
         "@types/lodash": "4.14.110",
         "@types/mocha": "5.2.3",
         "@types/chai": "4.1.4",
+        "@types/pg": "7.4.10",
         "typescript": "2.9.2",
         "ts-loader": "4.4.1",
         "ts-node": "7.0.0",
+        "tslint": "5.10.0",
         "@babel/core": "7.0.0-beta.51",
         "@babel/preset-env": "7.0.0-beta.51",
         "@babel/register": "7.0.0-beta.51",

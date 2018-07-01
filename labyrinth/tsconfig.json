@@ -6,6 +6,6 @@
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
-        "types": ["lodash", "mocha", "chai"]
+        "types": ["lodash", "mocha", "chai", "pg"]
     }
 }

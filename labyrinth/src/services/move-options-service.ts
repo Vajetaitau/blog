@@ -29,7 +29,7 @@ class MoveOptionsService {
 
     public availableOptionsProbabilities(takenPath: Path, currentPoint: Point, endPoint: Point, basicProbabilityPath = 0.8): Array<DirectionalProbability> {
         let options = this.availableOptions(takenPath, currentPoint);
-        let directionalDistance = new DistanceService().directionalDistance(currentPoint, endPoint);
+        let directionalDistance = DistanceService.directionalDistance(currentPoint, endPoint);
         if (options.length === 0) {
             return [];
         }
@@ -77,4 +77,4 @@ class MoveOptionsService {
     }
 }
 
-export default MoveOptionsService
+export let moveOptionsService = new MoveOptionsService()

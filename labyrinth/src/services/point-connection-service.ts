@@ -1,11 +1,11 @@
 import * as _ from "lodash"
-import MoveOptionsService from "./move-options-service"
+import { moveOptionsService } from "./move-options-service"
 import Direction from "../enums/direction"
 import DirectionRandomizer from "../models/direction-randomizer"
 import Path from "../models/path"
 import Point from "../models/point";
 import DirectionalProbability from "../models/directional-probability";
-import BacktrackingService from "./backtracking-service";
+import { backtrackingService } from "./backtracking-service";
 
 class PointConnectionService {
     connectPoints(startPoint: Point, endPoint: Point) {
@@ -19,8 +19,8 @@ class PointConnectionService {
             // In the case it is closed down by a path around it. Backtrack to the 
             // point which has open options.
             while (directionalProbabilities.length == 0) {
-                currentPoint = new BacktrackingService().getLastOpenPoint(path);
-                directionalProbabilities = new MoveOptionsService().availableOptionsProbabilities(path, currentPoint, endPoint);
+                currentPoint = backtrackingService.getLastOpenPoint(path);
+                directionalProbabilities = moveOptionsService.availableOptionsProbabilities(path, currentPoint, endPoint);
             }
 
             // Get random option for the next moving direction. And assign point,
@@ -31,7 +31,7 @@ class PointConnectionService {
 
             // And add it to the path of course :)
             path.add(currentPoint);
-            
+
             safeguard++;
             if (safeguard > 10000) {
                 console.log(path.length);
@@ -39,9 +39,9 @@ class PointConnectionService {
                 throw new Error("Could not connect points, safeguard was hit!");
             }
         }
-    
+
         return path;
     }
 }
 
-export default PointConnectionService
+export default new PointConnectionService()

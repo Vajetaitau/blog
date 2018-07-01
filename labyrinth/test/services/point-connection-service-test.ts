@@ -1,15 +1,13 @@
-import * as _ from "lodash"
-import * as Mocha from "mocha"
 import * as Chai from "chai"
-import PointConnectionService from "./point-connection-service"
-import Point from "../models/point"
+import Point from "../../src/models/point";
+import PointConnectionService from "../../src/services/point-connection-service";
 
 describe("PointConnectionService", function () {
     describe("#connectPoints", function () {
         it('Path should probably be longer, than shortest distance between two points', function () {
             var startPoint = new Point(0, 0);
             var endPoint = new Point(10, 0);
-            var path = new PointConnectionService().connectPoints(startPoint, endPoint);
+            var path = PointConnectionService.connectPoints(startPoint, endPoint);
             Chai.assert.isTrue(path.length > 10);
         });
     });

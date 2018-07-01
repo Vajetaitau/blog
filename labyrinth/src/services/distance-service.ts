@@ -24,4 +24,4 @@ class DistanceService {
     }
 }
 
-export default DistanceService;
+export default new DistanceService();
