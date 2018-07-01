@@ -30,3 +30,36 @@ Labirinto generavimo algoritmas:
 Reikalavimai: 
 1) labirintas turi būti begalinis, taigi labirintas turi būti generuojamas, kai žmonės priartėja prie ribos, kur dar niekas nebuvo.
 2) labirintas turi būti ganėtinai uždaras, ir keliai turėtų būti gana ilgi. Keliai turėtų viniotis aplinkui ir kuo mažiau plėsti.
+
+## Kaip veikia generavimas:
+1. pradedama nuo taško (0, 0)
+2. gauname galimus ėjimo variantus, juos vadiname `Options`:
+    1. pasižiūrime į aplink esančius taškus: `NORTH`, `SOUTH`, `EAST`, `WEST`
+    2. surenkame visas puses, kurių būsena yra `OPEN`:
+    3. patikriname lentelėje `backtrack_info` ar surinktos pusės atitinka
+    ėjimo toliau reikalavimus:
+        1. reikia, kad tos krypries būsena būtų `NOT_VISITED_CHILD`
+3. jeigu yra galimų ėjimų:
+    1. pritaikome tikimybinius koeficientus atsižvelgdami į mūsų norimo
+    pasiekti taško koordinates
+    2. pritaikome tikimybinius koeficientus:
+        1. TODO
+    3. gauname atsitiktinį ėjimą
+    4. į lentelę `labyrinth` įterpiame tašką esantį toje pusėje:
+        1. įterpdami patikriname ar šalia esančiuose taškuose kažkas yra
+        2. jeigu tuose taškuose kažkas yra, tų pusių būsenos tampa `CLOSED`,
+        nebent tai yra ta pusė iš kurios atėjome
+    5. į lentelę `backtrack_info` įterpiame tašką esantį toje pusėje:
+        1. tos pusės būsena iš kurios atėjome, tampa `PARENT`
+        2. tos pusės, kurių būsena lentelėje `labyrinth` yra `CLOSED` taip
+        pat pažymimos būsena `CLOSED`
+        3. visos kitos pusės pažymimos `NOT_VISITED_CHILD`
+4. jeigu nėra galimų ėjimų:
+    1. gauname tėvinį tašką:
+        1. iš lentelės `backtrack_info` randame, kurioje pusėje yra būsena
+        `PARENT`
+        2. apskaičiuojame koordinates ir iš lentelės `labyrinth` gauname
+        tėvinį tašką
+    2. pažymimę tą pusę iš kurios atėjome `backtrack_info` lentelėje, kaip
+    `VISITED_CHILD`, tai reiškia, kad į šią šaką, jau negrįšime
+    3. pradedame iš pradžių nuo punkto (2.)
