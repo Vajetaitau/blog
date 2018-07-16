@@ -9,7 +9,7 @@ import backtrackRepo from "../repositories/backtrack-repo";
 
 class BacktrackingService {
 
-    public getParent(point: Point) : Point {
+    public backtrackToParent(point: Point): Point {
         return point;
     }
     public getLastOpenPoint(path: Path): Point {
@@ -29,7 +29,7 @@ class BacktrackingService {
             Direction.values().forEach(function (direction) {
                 if (point.statusInDirection(direction) === DirectionStatus.OPEN &&
                     pointBacktrackStatus.statusInDirection(direction) === BacktrackStatus.NOT_VISITED_CHILD) {
-    
+
                     unexploredOptions.push(direction);
                 }
             });
@@ -38,4 +38,4 @@ class BacktrackingService {
     }
 }
 
-export let backtrackingService =  new BacktrackingService()
+export let backtrackingService = new BacktrackingService()

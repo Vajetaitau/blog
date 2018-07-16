@@ -3,6 +3,6 @@ export default new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'test_labyrinth',
-    password: 'Orimanokamoje0',
+    password: 'postgres',
     port: 5432,
 }); 
