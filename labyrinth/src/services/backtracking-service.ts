@@ -8,6 +8,10 @@ import { moveOptionsService } from "./move-options-service";
 import backtrackRepo from "../repositories/backtrack-repo";
 
 class BacktrackingService {
+
+    public getParent(point: Point) : Point {
+        return point;
+    }
     public getLastOpenPoint(path: Path): Point {
         var lastOpenPoint = _.findLast(path.pointArray, function (point) {
             return moveOptionsService.availableOptions(path, point).length > 0;

@@ -86,6 +86,10 @@ class Point {
             throw new Error("Wrong direction specified! :/")
         }
     }
+
+    public hasSameCoordinates(point: Point) {
+        return this.x === point.x && this.y === point.y;
+    }
 }
 
 export default Point

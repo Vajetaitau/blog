@@ -6,7 +6,16 @@ import Path from "../models/path"
 import Direction from "../enums/direction"
 
 class MoveOptionsService {
-    public availableOptions(takenPath: Path, currentPoint: Point): Array<string> {
+
+    public availableOptionsNew(currentPoint: Point): Array<Direction> {
+        return [];
+    }
+
+    public availableOptionsProbabilitiesNew(currentPoint: Point, endPoint: Point) : Array<DirectionalProbability> {
+        return [];
+    }
+
+    public availableOptions(takenPath: Path, currentPoint: Point): Array<Direction> {
         if (!(takenPath instanceof Path && currentPoint instanceof Point)) {
             throw new Error("Incorrect parameters.");
         }

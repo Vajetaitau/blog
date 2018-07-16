@@ -1,13 +1,15 @@
+import Direction from "../enums/direction";
+
 class DirectionalProbability {
-    private _direction: string;
+    private _direction: Direction;
     private _probability: number;
 
-    constructor(direction: string, probability: number) {
+    constructor(direction: Direction, probability: number) {
         this._direction = direction;
         this._probability = probability;
     }
 
-    get direction() {
+    get direction() : Direction {
         return this._direction;
     }
 
