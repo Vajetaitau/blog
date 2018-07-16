@@ -1,5 +1,6 @@
 import Direction from '../enums/direction';
 import DirectionStatus from '../enums/direction-status';
+import BacktrackStatus from '../enums/backtrack-status';
 
 class Point {
     private _x: number;
@@ -8,21 +9,32 @@ class Point {
     private _south: DirectionStatus;
     private _east: DirectionStatus;
     private _west: DirectionStatus;
+    private _backtrackNorth: BacktrackStatus;
+    private _backtrackSouth: BacktrackStatus;
+    private _backtrackEast: BacktrackStatus;
+    private _backtrackWest: BacktrackStatus;
 
-    constructor(x: number, y: number, north?: DirectionStatus, south?: DirectionStatus, east?: DirectionStatus, west?: DirectionStatus) {
+    constructor(x: number, y: number,
+        north?: DirectionStatus, south?: DirectionStatus, east?: DirectionStatus, west?: DirectionStatus,
+        backtrackNorth?: BacktrackStatus, backtrackSouth?: BacktrackStatus, backtrackEast?: BacktrackStatus, backtrackWest?: BacktrackStatus) {
+
         this._x = x;
         this._y = y;
         this._north = north;
         this._south = south;
         this._east = east;
         this._west = west;
+        this._backtrackNorth = backtrackNorth;
+        this._backtrackSouth = backtrackSouth;
+        this._backtrackEast = backtrackEast;
+        this._backtrackWest = backtrackWest;
     }
 
-    get x() {
+    public get x() {
         return this._x;
     }
 
-    get y() {
+    public get y() {
         return this._y;
     }
 
@@ -40,6 +52,22 @@ class Point {
 
     public get west(): DirectionStatus {
         return this._west;
+    }
+
+    public get backtrackNorth(): BacktrackStatus {
+        return this._backtrackNorth;
+    }
+
+    public get backtrackSouth(): BacktrackStatus {
+        return this._backtrackSouth;
+    }
+
+    public get backtrackEast(): BacktrackStatus {
+        return this._backtrackEast;
+    }
+
+    public get backtrackWest(): BacktrackStatus {
+        return this._backtrackWest;
     }
 
     public northPoint(): Point {

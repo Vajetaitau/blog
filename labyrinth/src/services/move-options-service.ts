@@ -4,15 +4,22 @@ import DirectionalProbability from "../models/directional-probability"
 import Point from "../models/point"
 import Path from "../models/path"
 import Direction from "../enums/direction"
+import { Promise } from "es6-promise";
 
 class MoveOptionsService {
 
+    // lists available options
     public availableOptionsNew(currentPoint: Point): Array<Direction> {
         return [];
     }
 
-    public availableOptionsProbabilitiesNew(currentPoint: Point, endPoint: Point) : Array<DirectionalProbability> {
-        return [];
+    public availableOptionsProbabilitiesNew(currentPoint: Point, endPoint: Point, options: Array<Direction>): Array<DirectionalProbability> {
+        return [
+            new DirectionalProbability(Direction.NORTH, 0.25),
+            new DirectionalProbability(Direction.SOUTH, 0.25),
+            new DirectionalProbability(Direction.EAST, 0.25),
+            new DirectionalProbability(Direction.WEST, 0.25)
+        ];
     }
 
     public availableOptions(takenPath: Path, currentPoint: Point): Array<Direction> {

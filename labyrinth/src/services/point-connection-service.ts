@@ -8,6 +8,7 @@ import DirectionalProbability from "../models/directional-probability";
 import { backtrackingService } from "./backtracking-service";
 import { directionRandomizationService } from "./direction-randomization-service";
 import { movingService } from "./moving-service";
+import { generationService } from "./generation-service";
 
 class PointConnectionService {
 
@@ -15,22 +16,23 @@ class PointConnectionService {
         let currentPoint = startPoint;
         let moveCount = 0;
         let shortestPath = 0;
-        while (!currentPoint.hasSameCoordinates(endPoint)) {
-            let options = moveOptionsService.availableOptionsNew(currentPoint);
-            if (options.length > 0) {
-                let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endPoint);
-                let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
-                let newPoint = movingService.move(currentPoint, nextMoveDirection);
-                currentPoint = newPoint;
+        while (!currentPoint.hasSameCoordinates(endPoint)) { // TODO: should be rewriten using recursion, promises can't loop
+            generationService.getAvailableOptions(currentPoint).then(options => {
+                if (options.length > 0) {
+                    let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endPoint, options);
+                    let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
+                    let newPoint = movingService.move(currentPoint, nextMoveDirection); // TODO: needs implementation
+                    currentPoint = newPoint;
 
-                shortestPath++; // when moving forward, we add one additional step;
-            } else {
-                let parent = backtrackingService.backtrackToParent(currentPoint);
-                currentPoint = parent;
-
-                shortestPath--; // when moving backwards, we substract
-            }
-
+                    shortestPath++;
+                }
+                else {
+                    let parent = backtrackingService.backtrackToParent(currentPoint);
+                    currentPoint = parent;
+    
+                    shortestPath--; // when moving backwards, we substract
+                }
+            });
             moveCount++;
         }
 

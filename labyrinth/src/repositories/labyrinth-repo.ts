@@ -1,6 +1,9 @@
 import * as _ from "lodash";
 import Point from "../models/point";
 import Direction from "../enums/direction";
+import QueryBuilder from "./query/query-builder";
+import DirectionStatus from "../enums/direction-status";
+import BacktrackStatus from "../enums/backtrack-status";
 
 class LabyrinthRepo {
     private _sizeConstant = 1000;
@@ -40,6 +43,32 @@ class LabyrinthRepo {
         // array indexes
         const ammountToAdd = this._sizeConstant / 2;
         return this._labyrinthTable[y + ammountToAdd][x + ammountToAdd];
+    }
+
+    public getPointX(x: number, y: number): Promise<Point> {
+        return new QueryBuilder()
+            .query(
+                "select l.north north, l.south south, l.east east, l.west west, bi.north b_north, bi.south b_south, bi.east b_east, bi.west b_west " +
+                "from labyrinth as l " +
+                "inner join backtrack_info as bi on l.x = bi.x and l.y = bi.y " +
+                "where l.x = $1 " +
+                "and l.y = $2"
+                , [x, y]
+            )
+            .then(res => {
+                const firstRow = res.rows[0];
+                return new Point(
+                    x, y,
+                    firstRow.north,
+                    firstRow.south,
+                    firstRow.east,
+                    firstRow.west,
+                    firstRow.b_north,
+                    firstRow.b_south,
+                    firstRow.b_east,
+                    firstRow.b_west
+                );
+            });
     }
 
 }

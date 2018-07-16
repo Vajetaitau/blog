@@ -23,6 +23,7 @@
         "@types/mocha": "5.2.3",
         "@types/chai": "4.1.4",
         "@types/pg": "7.4.10",
+        "@types/es6-promise": "3.3.0",
         "typescript": "2.9.2",
         "ts-loader": "4.4.1",
         "ts-node": "7.0.0",
