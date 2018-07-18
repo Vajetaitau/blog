@@ -21,7 +21,9 @@ new QueryBuilder()
     "(1, -1, 'CLOSED', 'CLOSED', 'NOT_VISITED_CHILD', 'PARENT'), " +
     "(2, -1, 'NOT_VISITED_CHILD', 'CLOSED', 'CLOSED', 'PARENT'), " +
     "(2, 0, 'CLOSED', 'PARENT', 'CLOSED', 'NOT_VISITED_CHILD'), " +
-    "(3, 0, 'CLOSED', 'CLOSED', 'PARENT', 'NOT_VISITED_CHILD')"
+    "(3, 0, 'CLOSED', 'CLOSED', 'PARENT', 'NOT_VISITED_CHILD'), " +
+    "(99, 0, 'VISITED_CHILD', 'CLOSED', 'CLOSED', 'CLOSED'), " +
+    "(100, 0, 'NOT_VISITED_CHILD', 'PARENT', 'NOT_VISITED_CHILD', 'NOT_VISITED_CHILD')"    
     , (res) => {
         console.log(res);
     }
@@ -46,7 +48,9 @@ new QueryBuilder()
     "(1, -1, 'CLOSED', 'CLOSED', 'OPEN', 'PARENT'), " +
     "(2, -1, 'OPEN', 'CLOSED', 'CLOSED', 'PARENT'), " +
     "(2, 0, 'CLOSED', 'PARENT', 'CLOSED', 'OPEN'), " +
-    "(3, 0, 'CLOSED', 'CLOSED', 'PARENT', 'OPEN')"
+    "(3, 0, 'CLOSED', 'CLOSED', 'PARENT', 'OPEN'), " +
+    "(99, 0, 'OPEN', 'CLOSED', 'CLOSED', 'CLOSED'), " +
+    "(100, 0, 'OPEN', 'PARENT', 'OPEN', 'OPEN')"    
     , (res) => {
         console.log(res);
     }

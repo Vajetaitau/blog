@@ -10,8 +10,32 @@ class QueryBuilder {
         this._pool = pool;
     }
 
-    public addQuery(query: string, successCallback: (queryResult: QueryResult) => void): QueryBuilder {
-        this._queryArray.push(new Query(query, successCallback))
+    public async executeInAsyncTransaction() {
+        const client = await this._pool.connect();
+        let responseArray = new Array<QueryResult>();
+
+        try {
+            await client.query("BEGIN");
+
+            for (const queryObj of this._queryArray) {
+                const response = await client.query(queryObj.query, queryObj.values);
+                queryObj.successCallback(response);
+                responseArray.push(response);
+            }
+
+            await client.query("COMMIT");
+        } catch(e) {
+            await client.query("ROLLBACK");
+            throw e;
+        } finally {
+            client.release();
+        }
+
+        return responseArray;
+    }
+
+    public addQuery(query: string, successCallback: (queryResult: QueryResult) => void, values?: any[]): QueryBuilder {
+        this._queryArray.push(new Query(query, successCallback, values))
         return this;
     }
 
@@ -41,7 +65,7 @@ class QueryBuilder {
                 }
 
                 this._queryArray.forEach((queryObj) => {
-                    client.query(queryObj.query, (err, res) => {
+                    client.query(queryObj.query, queryObj.values, (err, res) => {
                         if (shouldAbort(err)) {
                             return;
                         }
@@ -62,15 +86,21 @@ class QueryBuilder {
 
 class Query {
     private _query: string;
+    private _values: any[];
     private _successCallback: (queryResult: QueryResult) => void
 
-    constructor(query: string, successCallback: (queryResult: QueryResult) => void) {
+    constructor(query: string, successCallback: (queryResult: QueryResult) => void, values?: any[]) {
         this._query = query;
+        this._values = values;
         this._successCallback = successCallback;
     }
 
     public get query() {
         return this._query;
+    }
+
+    public get values() {
+        return this._values;
     }
 
     public get successCallback() {

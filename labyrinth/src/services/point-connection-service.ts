@@ -9,34 +9,36 @@ import { backtrackingService } from "./backtracking-service";
 import { directionRandomizationService } from "./direction-randomization-service";
 import { movingService } from "./moving-service";
 import { generationService } from "./generation-service";
+import labyrinthRepo from "../repositories/labyrinth-repo";
 
 class PointConnectionService {
 
-    connectPointsNew(startPoint: Point, endPoint: Point) {
-        let currentPoint = startPoint;
-        let moveCount = 0;
-        let shortestPath = 0;
-        while (!currentPoint.hasSameCoordinates(endPoint)) { // TODO: should be rewriten using recursion, promises can't loop
-            generationService.getAvailableOptions(currentPoint).then(options => {
-                if (options.length > 0) {
-                    let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endPoint, options);
-                    let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
-                    let newPoint = movingService.move(currentPoint, nextMoveDirection); // TODO: needs implementation
-                    currentPoint = newPoint;
+    public async connectPointsNew(startCoord: Point, endCoord: Point) {
+        await this.makeMoves(startCoord, endCoord);
+    }
 
-                    shortestPath++;
-                }
-                else {
-                    let parent = backtrackingService.backtrackToParent(currentPoint);
-                    currentPoint = parent;
-    
-                    shortestPath--; // when moving backwards, we substract
-                }
-            });
-            moveCount++;
+    private async makeMoves(currentCoord: Point, endCoord: Point): Promise<Point> {
+        const currentPoint = await labyrinthRepo.getPointX(currentCoord.x, currentCoord.y);
+        const options = generationService.getAvailableOptions(currentPoint);
+
+        let nextPoint;
+        if (options.length > 0) {
+            let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endCoord, options);
+            let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
+            let newPoint = await movingService.move(currentPoint, nextMoveDirection);
+            nextPoint = await this.makeMoves(newPoint, endCoord);
+        } else {
+            nextPoint = currentPoint.parentPoint();
         }
 
+        console.log(nextPoint.x + " " + nextPoint.y);
+        if (nextPoint.hasSameCoordinates(endCoord)) {
+            return nextPoint;
+        } else {
+            return await this.makeMoves(nextPoint, endCoord);
+        }        
     }
+
     connectPoints(startPoint: Point, endPoint: Point) {
         let currentPoint = startPoint;
         var path = new Path([startPoint]);
@@ -73,4 +75,4 @@ class PointConnectionService {
     }
 }
 
-export default new PointConnectionService()
+export let pointConnectionService = new PointConnectionService();

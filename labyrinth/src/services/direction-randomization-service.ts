@@ -14,6 +14,8 @@ class DirectionRandomizationService {
         });    
 
         let randomIndex = Math.floor(Math.random() * 100);
+        // console.log(probabilityMap);
+        // console.log(randomIndex);
         return probabilityMap[randomIndex];
     }
 

@@ -86,6 +86,24 @@ class Point {
         return new Point(this.x - 1, this.y);
     }
 
+    public parentDirection(): Direction {
+        if (this._backtrackNorth === BacktrackStatus.PARENT) {
+            return Direction.NORTH;
+        } else if (this._backtrackSouth === BacktrackStatus.PARENT) {
+            return Direction.SOUTH;
+        } else if (this._backtrackEast === BacktrackStatus.PARENT) {
+            return Direction.EAST;
+        } else if (this._backtrackWest === BacktrackStatus.PARENT) {
+            return Direction.WEST;
+        } else {
+            throw new Error("Parent point does not exist :/");
+        }
+    }
+
+    public parentPoint(): Point {
+        return this.pointInDirection(this.parentDirection());
+    }
+
     public pointInDirection(direction: string): Point {
         if (direction === Direction.NORTH) {
             return this.northPoint();
@@ -96,8 +114,7 @@ class Point {
         } else if (direction === Direction.WEST) {
             return this.westPoint();
         } else {
-            console.log(direction);
-            throw new Error("Wrong direction specified!");
+            throw new Error("Wrong direction specified! (" + direction + ")");
         }
     }
 
@@ -111,7 +128,7 @@ class Point {
         } else if (direction === Direction.WEST) {
             return this._west;
         } else {
-            throw new Error("Wrong direction specified! :/")
+            throw new Error("Wrong direction specified! (" + direction + ")");
         }
     }
 

@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import Point from "../models/point";
 import Direction from "../enums/direction";
-import QueryBuilder from "./query/query-builder";
+import QueryBuilder from './query/query-builder';
 import DirectionStatus from "../enums/direction-status";
 import BacktrackStatus from "../enums/backtrack-status";
 
@@ -69,6 +69,80 @@ class LabyrinthRepo {
                     firstRow.b_west
                 );
             });
+    }
+
+    // returns directions, where neigbour points exist
+    public getNeighbourPointDirections(x: number, y: number): Promise<Array<Direction>> {
+        return new QueryBuilder()
+            .query(
+                "select 'NORTH' d     " +
+                "from labyrinth       " +
+                "where x = $1         " +
+                "and y = $2 + 1       " +
+                "union                " +
+                "select 'SOUTH' d     " +
+                "from labyrinth       " +
+                "where x = $1         " +
+                "and y = $2 - 1       " +
+                "union                " +
+                "select 'EAST' d      " +
+                "from labyrinth       " +
+                "where x = $1 + 1     " +
+                "and y = $2           " +
+                "union                " +
+                "select 'WEST' d      " +
+                "from labyrinth       " +
+                "where x = $1 - 1     " +
+                "and y = $2           "
+                , [x, y]
+            ).then(res => {
+                const rows = res.rows;
+                return _.map(rows, row => {
+                    return row.d;
+                })
+            });
+    }
+
+    public async saveNewPoint(point: Point, parent: Point) {  
+        console.log(parent);      
+        await new QueryBuilder()
+            .addQuery(
+                "update backtrack_info                            " +
+                "set north = $3, south = $4, east = $5, west = $6 " +
+                "where x = $1                                     " +
+                "and y = $2                                       "
+                , res => {
+                    // console.log(res);
+                },
+                [
+                    parent.x, parent.y, 
+                    parent.backtrackNorth, parent.backtrackSouth, 
+                    parent.backtrackEast, parent.backtrackWest
+                ]
+            )
+            .addQuery(
+                "insert into                                  " +
+                "labyrinth(x, y, north, south, east, west)    " +
+                "values ($1, $2, $3, $4, $5, $6)              "
+                , res => {
+                    // console.log(res);
+                },
+                [point.x, point.y, point.north, point.south, point.east, point.west]
+            )
+            .addQuery(
+                "insert into                                    " +
+                "backtrack_info(x, y, north, south, east, west) " +
+                "values ($1, $2, $3, $4, $5, $6)                ",
+                res => {
+                    // console.log(res);
+                },
+                [
+                    point.x, point.y,
+                    point.backtrackNorth, point.backtrackSouth,
+                    point.backtrackEast, point.backtrackWest
+                ]
+            )
+            .executeInAsyncTransaction();
     }
 
 }

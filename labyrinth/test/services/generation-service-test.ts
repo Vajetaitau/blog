@@ -5,17 +5,15 @@ import Direction from "../../src/enums/direction";
 
 describe('GenerationService', function () {
     describe('#getAvailableOptions', function () {
-        it('Should be only EAST', function () {
+        it('Should be only EAST', async function () {
             var currentPoint = new Point(0, 0);
-            return generationService.getAvailableOptions(currentPoint).then(options => {
-                assert.deepStrictEqual(options, [Direction.EAST]);
-            });
+            const options = await generationService.getAvailableOptions(currentPoint);
+            assert.deepStrictEqual(options, [Direction.EAST]);
         });
-        it('Should be only NORTH', function () {
+        it('Should be only NORTH', async function () {
             var currentPoint = new Point(1, 0);
-            return generationService.getAvailableOptions(currentPoint).then(options => {
-                assert.deepStrictEqual(options, [Direction.NORTH]);
-            });
+            const options = await generationService.getAvailableOptions(currentPoint);
+            assert.deepStrictEqual(options, [Direction.NORTH]);
         });
     });
 });
