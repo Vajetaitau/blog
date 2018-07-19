@@ -3,7 +3,7 @@ import Point from "../models/point";
 import Direction from "../enums/direction";
 import QueryBuilder from './query/query-builder';
 import DirectionStatus from "../enums/direction-status";
-import BacktrackStatus from "../enums/backtrack-status";
+import BacktrackStatus from '../enums/backtrack-status';
 
 class LabyrinthRepo {
     private _sizeConstant = 1000;
@@ -103,9 +103,33 @@ class LabyrinthRepo {
             });
     }
 
-    public async saveNewPoint(point: Point, parent: Point) {  
-        console.log(parent);      
-        await new QueryBuilder()
+    public async saveNewPoint(point: Point, parent: Point, neighboars: Array<Direction>) {
+        let queryBuilder = new QueryBuilder();
+        for (const neigboarDirection of neighboars) {
+            const neighboarCoord = point.pointInDirection(neigboarDirection);
+            queryBuilder
+                .addQuery(
+                    "update labyrinth                                                       " +
+                    "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
+                    "where x = $1                                                           " +
+                    "and y = $2                                                             "
+                    , res => {
+
+                    },
+                    [neighboarCoord.x, neighboarCoord.y, DirectionStatus.CLOSED]
+                )
+                .addQuery(
+                    "update backtrack_info                                                  " +
+                    "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
+                    "where x = $1                                                           " +
+                    "and y = $2                                                             "
+                    , res => {
+
+                    },
+                    [neighboarCoord.x, neighboarCoord.y, BacktrackStatus.CLOSED]
+                );
+        }
+        await queryBuilder
             .addQuery(
                 "update backtrack_info                            " +
                 "set north = $3, south = $4, east = $5, west = $6 " +
@@ -115,8 +139,8 @@ class LabyrinthRepo {
                     // console.log(res);
                 },
                 [
-                    parent.x, parent.y, 
-                    parent.backtrackNorth, parent.backtrackSouth, 
+                    parent.x, parent.y,
+                    parent.backtrackNorth, parent.backtrackSouth,
                     parent.backtrackEast, parent.backtrackWest
                 ]
             )

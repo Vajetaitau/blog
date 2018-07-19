@@ -14,7 +14,7 @@ class MovingService {
         const parentDirection = Direction.oposite(moveTo);
         const nextPoint = this.getNextPoint(newCoord, parentDirection, neighbourDirections);
         const parentForNextPoint = this.getMoveFromWithVisitedChild(moveFrom, moveTo);
-        await labyrinthRepo.saveNewPoint(nextPoint, parentForNextPoint);
+        await labyrinthRepo.saveNewPoint(nextPoint, parentForNextPoint, neighbourDirections);
 
         return nextPoint;
     }
@@ -61,7 +61,7 @@ class MovingService {
     }
 
     private getDirectionStatus(neighbourDirection: Direction, existingNeighboars: Array<Direction>, parentDirection: Direction): DirectionStatus {
-        const neighbourExists = _.find(existingNeighboars, neighbourDirection)
+        const neighbourExists = _.includes(existingNeighboars, neighbourDirection);
         return neighbourExists && neighbourDirection !== parentDirection ? DirectionStatus.CLOSED : DirectionStatus.OPEN;
     }
 
@@ -69,7 +69,7 @@ class MovingService {
         if (neighbourDirection === parentDirection) {
             return BacktrackStatus.PARENT;
         } else {
-            const neighbourExists = _.find(existingNeighboars, neighbourDirection)
+            const neighbourExists = _.includes(existingNeighboars, neighbourDirection)
             if (neighbourExists) {
                 return BacktrackStatus.CLOSED;
             } else {

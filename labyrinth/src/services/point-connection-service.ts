@@ -26,7 +26,7 @@ class PointConnectionService {
             let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endCoord, options);
             let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
             let newPoint = await movingService.move(currentPoint, nextMoveDirection);
-            nextPoint = await this.makeMoves(newPoint, endCoord);
+            nextPoint = newPoint;
         } else {
             nextPoint = currentPoint.parentPoint();
         }
