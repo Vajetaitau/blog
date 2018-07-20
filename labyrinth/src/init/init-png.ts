@@ -14,11 +14,11 @@ const wallColor = Jimp.rgbaToInt(255, 0, 0, 255);     // red
 loadRows(allLabyrinthPoints, 50, 0).then(() => {
     new (Jimp as any)(1000, 1000, (err: Error, image: Jimp.Jimp) => {
         for (const point of allLabyrinthPoints) {
-            console.log(point);
-            const xx = new Point(point.x * 2 + 500, point.y * 2 + 500);
+            console.log(point.x, point.y, point.north, point.south, point.east, point.west);
+            const xx = new Point(point.x * 2 + 300, point.y * -2 + 300);
 
-            const north = paintConnection(xx.northPoint(), point.north);            
-            const south = paintConnection(xx.southPoint(), point.south);
+            const north = paintConnection(xx.southPoint(), point.north); // direction is different, because Jimp y axis is upside down
+            const south = paintConnection(xx.northPoint(), point.south);
             const east = paintConnection(xx.eastPoint(), point.east);
             const west = paintConnection(xx.westPoint(), point.west);
 
@@ -52,11 +52,11 @@ loadRows(allLabyrinthPoints, 50, 0).then(() => {
     });
 });
 
-async function loadRows(rowArray: any[], limit: number, offset: number) {
+async function loadRows(rowArray: Point[], limit: number, offset: number) {
     const rows = await returnRows(limit, offset);
     if (rows.length > 0) {
         rowArray.push(...rows);
-        // await loadRows(rowArray, limit, offset + limit);
+        await loadRows(rowArray, limit, offset + limit);
     }
 
     return rowArray;

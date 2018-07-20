@@ -7,12 +7,12 @@ import BacktrackStatus from "../enums/backtrack-status";
 
 class MovingService {
 
-    public async move(moveFrom: Point, moveTo: Direction) {
+    public async move(moveFrom: Point, moveTo: Direction, endCoord: Point) {
         const newCoord = moveFrom.pointInDirection(moveTo);
         const neighbourDirections = await labyrinthRepo.getNeighbourPointDirections(newCoord.x, newCoord.y);
 
         const parentDirection = Direction.oposite(moveTo);
-        const nextPoint = this.getNextPoint(newCoord, parentDirection, neighbourDirections);
+        const nextPoint = this.getNextPoint(newCoord, endCoord, parentDirection, neighbourDirections);
         const parentForNextPoint = this.getMoveFromWithVisitedChild(moveFrom, moveTo);
         await labyrinthRepo.saveNewPoint(nextPoint, parentForNextPoint, neighbourDirections);
 
@@ -43,11 +43,11 @@ class MovingService {
         );
     }
 
-    private getNextPoint(newCoord: Point, parentDirection: Direction, neighbourDirections: Array<Direction>): Point {
-        const north = this.getDirectionStatus(Direction.NORTH, neighbourDirections, parentDirection);
-        const south = this.getDirectionStatus(Direction.SOUTH, neighbourDirections, parentDirection);
-        const east = this.getDirectionStatus(Direction.EAST, neighbourDirections, parentDirection);
-        const west = this.getDirectionStatus(Direction.WEST, neighbourDirections, parentDirection);
+    private getNextPoint(newCoord: Point, endCoord: Point, parentDirection: Direction, neighbourDirections: Array<Direction>): Point {
+        const north = this.getDirectionStatus(newCoord, endCoord, Direction.NORTH, neighbourDirections, parentDirection);
+        const south = this.getDirectionStatus(newCoord, endCoord, Direction.SOUTH, neighbourDirections, parentDirection);
+        const east = this.getDirectionStatus(newCoord, endCoord, Direction.EAST, neighbourDirections, parentDirection);
+        const west = this.getDirectionStatus(newCoord, endCoord, Direction.WEST, neighbourDirections, parentDirection);
         const northBS = this.getBacktrackStatus(Direction.NORTH, neighbourDirections, parentDirection);
         const southBS = this.getBacktrackStatus(Direction.SOUTH, neighbourDirections, parentDirection);
         const eastBS = this.getBacktrackStatus(Direction.EAST, neighbourDirections, parentDirection);
@@ -60,9 +60,15 @@ class MovingService {
         )
     }
 
-    private getDirectionStatus(neighbourDirection: Direction, existingNeighboars: Array<Direction>, parentDirection: Direction): DirectionStatus {
+    private getDirectionStatus(newCoord: Point, endCoord: Point, neighbourDirection: Direction, existingNeighboars: Array<Direction>, parentDirection: Direction): DirectionStatus {
         const neighbourExists = _.includes(existingNeighboars, neighbourDirection);
-        return neighbourExists && neighbourDirection !== parentDirection ? DirectionStatus.CLOSED : DirectionStatus.OPEN;
+        if (neighbourExists && neighbourDirection !== parentDirection) {
+            return DirectionStatus.CLOSED;
+        } else if (Math.abs(endCoord.x - newCoord.x) + Math.abs(endCoord.y - newCoord.y) > 110) {
+            return DirectionStatus.OPEN_BUT_TOO_FAR;
+        } else {
+            return DirectionStatus.OPEN;
+        }
     }
 
     private getBacktrackStatus(neighbourDirection: Direction, existingNeighboars: Array<Direction>, parentDirection: Direction): BacktrackStatus {

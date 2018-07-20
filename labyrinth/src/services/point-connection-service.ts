@@ -14,10 +14,10 @@ import labyrinthRepo from "../repositories/labyrinth-repo";
 class PointConnectionService {
 
     public async connectPointsNew(startCoord: Point, endCoord: Point) {
-        await this.makeMoves(startCoord, endCoord);
+        await this.makeMoves(startCoord, endCoord, 0);
     }
 
-    private async makeMoves(currentCoord: Point, endCoord: Point): Promise<Point> {
+    private async makeMoves(currentCoord: Point, endCoord: Point, i: number): Promise<Point> {
         const currentPoint = await labyrinthRepo.getPointX(currentCoord.x, currentCoord.y);
         const options = generationService.getAvailableOptions(currentPoint);
 
@@ -25,17 +25,17 @@ class PointConnectionService {
         if (options.length > 0) {
             let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endCoord, options);
             let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
-            let newPoint = await movingService.move(currentPoint, nextMoveDirection);
+            let newPoint = await movingService.move(currentPoint, nextMoveDirection, endCoord);
             nextPoint = newPoint;
         } else {
             nextPoint = currentPoint.parentPoint();
         }
 
         console.log(nextPoint.x + " " + nextPoint.y);
-        if (nextPoint.hasSameCoordinates(endCoord)) {
+        if (nextPoint.hasSameCoordinates(endCoord)/*|| i > 1000*/) {
             return nextPoint;
         } else {
-            return await this.makeMoves(nextPoint, endCoord);
+            return await this.makeMoves(nextPoint, endCoord, i + 1);
         }        
     }
 

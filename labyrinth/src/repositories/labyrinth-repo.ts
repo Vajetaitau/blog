@@ -107,27 +107,32 @@ class LabyrinthRepo {
         let queryBuilder = new QueryBuilder();
         for (const neigboarDirection of neighboars) {
             const neighboarCoord = point.pointInDirection(neigboarDirection);
-            queryBuilder
-                .addQuery(
-                    "update labyrinth                                                       " +
-                    "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
-                    "where x = $1                                                           " +
-                    "and y = $2                                                             "
-                    , res => {
+            if (!parent.hasSameCoordinates(neighboarCoord)) {
+                queryBuilder
+                    .addQuery(
+                        "update labyrinth                                                       " +
+                        "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
+                        "where x = $1                                                           " +
+                        "and y = $2                                                             "
+                        , res => {
+                            if (neighboarCoord.x === 100 && neighboarCoord.y === 0) {
+                                console.log('x', );
+                            }
+                        },
+                        [neighboarCoord.x, neighboarCoord.y, DirectionStatus.CLOSED]
+                    )
+                    .addQuery(
+                        "update backtrack_info                                                  " +
+                        "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
+                        "where x = $1                                                           " +
+                        "and y = $2                                                             "
+                        , res => {
 
-                    },
-                    [neighboarCoord.x, neighboarCoord.y, DirectionStatus.CLOSED]
-                )
-                .addQuery(
-                    "update backtrack_info                                                  " +
-                    "set " + Direction.oposite(neigboarDirection).toLowerCase() + " = $3    " +
-                    "where x = $1                                                           " +
-                    "and y = $2                                                             "
-                    , res => {
+                        },
+                        [neighboarCoord.x, neighboarCoord.y, BacktrackStatus.CLOSED]
+                    );
+            }
 
-                    },
-                    [neighboarCoord.x, neighboarCoord.y, BacktrackStatus.CLOSED]
-                );
         }
         await queryBuilder
             .addQuery(
