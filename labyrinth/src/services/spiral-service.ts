@@ -1,5 +1,8 @@
-import _ from "lodash"
-import Jimp from "jimp"
+import * as _ from "lodash"
+
+class SpiralService {
+    
+}
 
 function getSpiralPoints(amountOfPoints) {
     var spiralPoints = _.times(amountOfPoints, function (index) {

@@ -11,11 +11,12 @@ const transparent = Jimp.rgbaToInt(0, 0, 0, 0);
 const pathColor = Jimp.rgbaToInt(255, 255, 255, 255); // white
 const wallColor = Jimp.rgbaToInt(255, 0, 0, 255);     // red
 
+const size = 2000;
 loadRows(allLabyrinthPoints, 50, 0).then(() => {
-    new (Jimp as any)(1000, 1000, (err: Error, image: Jimp.Jimp) => {
+    new (Jimp as any)(size, size, (err: Error, image: Jimp.Jimp) => {
         for (const point of allLabyrinthPoints) {
             console.log(point.x, point.y, point.north, point.south, point.east, point.west);
-            const xx = new Point(point.x * 2 + 300, point.y * -2 + 300);
+            const xx = new Point(point.x * 2 + size / 2, point.y * -2 + size / 2);
 
             const north = paintConnection(xx.southPoint(), point.north); // direction is different, because Jimp y axis is upside down
             const south = paintConnection(xx.northPoint(), point.south);

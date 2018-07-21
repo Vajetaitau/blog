@@ -1,6 +1,7 @@
 import Direction from '../enums/direction';
 import DirectionStatus from '../enums/direction-status';
 import BacktrackStatus from '../enums/backtrack-status';
+import DirectionalDistance from './directional-distance';
 
 class Point {
     private _x: number;
@@ -134,6 +135,49 @@ class Point {
 
     public hasSameCoordinates(point: Point) {
         return this.x === point.x && this.y === point.y;
+    }
+
+    public getAvailableOptions(): Array<Direction> {
+        let options = [];
+        if (this._north === DirectionStatus.OPEN && this._backtrackNorth === BacktrackStatus.NOT_VISITED_CHILD) {
+            options.push(Direction.NORTH);
+        }
+        if (this._south === DirectionStatus.OPEN && this._backtrackSouth === BacktrackStatus.NOT_VISITED_CHILD) {
+            options.push(Direction.SOUTH);
+        }
+        if (this._east === DirectionStatus.OPEN && this._backtrackEast === BacktrackStatus.NOT_VISITED_CHILD) {
+            options.push(Direction.EAST);
+        }
+        if (this._west === DirectionStatus.OPEN && this._backtrackWest === BacktrackStatus.NOT_VISITED_CHILD) {
+            options.push(Direction.WEST);
+        }
+        return options;
+    }
+
+    public getDistanceTo(coord: Point) {
+        var xDistance = coord.x - this._x;
+        var yDistance = coord.y - this._y;
+        return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    }
+
+    public getDirectionalDistanceTo(coord: Point) {
+        var directions = [];
+        var xDistance = coord.x - this._x;
+        var yDistance = coord.y - this._y;
+
+        if (xDistance > 0) {
+            directions.push(new DirectionalDistance(Direction.EAST, Math.abs(xDistance)));
+        } else if (xDistance < 0) {
+            directions.push(new DirectionalDistance(Direction.WEST, Math.abs(xDistance)));
+        }
+
+        if (yDistance > 0) {
+            directions.push(new DirectionalDistance(Direction.NORTH, Math.abs(yDistance)));
+        } else if (yDistance < 0) {
+            directions.push(new DirectionalDistance(Direction.SOUTH, Math.abs(yDistance)));
+        }
+
+        return directions;
     }
 }
 

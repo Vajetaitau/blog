@@ -20,8 +20,8 @@ new QueryBuilder()
     "(0, -1, 'CLOSED', 'CLOSED', 'NOT_VISITED_CHILD', 'PARENT'), " +
     "(1, -1, 'CLOSED', 'CLOSED', 'NOT_VISITED_CHILD', 'PARENT'), " +
     "(2, -1, 'NOT_VISITED_CHILD', 'CLOSED', 'CLOSED', 'PARENT'), " +
-    "(2, 0, 'CLOSED', 'PARENT', 'CLOSED', 'NOT_VISITED_CHILD'), " +
-    "(3, 0, 'CLOSED', 'CLOSED', 'PARENT', 'NOT_VISITED_CHILD'), " +
+    "(2, 0, 'CLOSED', 'PARENT', 'NOT_VISITED_CHILD', 'CLOSED'), " +
+    "(3, 0, 'CLOSED', 'CLOSED', 'NOT_VISITED_CHILD', 'PARENT'), " +
     "(99, 0, 'VISITED_CHILD', 'CLOSED', 'CLOSED', 'CLOSED'), " +
     "(100, 0, 'NOT_VISITED_CHILD', 'PARENT', 'NOT_VISITED_CHILD', 'NOT_VISITED_CHILD')"    
     , (res) => {

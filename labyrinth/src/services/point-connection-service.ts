@@ -1,77 +1,38 @@
-import * as _ from "lodash"
-import { moveOptionsService } from "./move-options-service"
-import Direction from "../enums/direction"
-import DirectionRandomizer from "../models/direction-randomizer"
-import Path from "../models/path"
 import Point from "../models/point";
-import DirectionalProbability from "../models/directional-probability";
-import { backtrackingService } from "./backtracking-service";
-import { directionRandomizationService } from "./direction-randomization-service";
 import { movingService } from "./moving-service";
-import { generationService } from "./generation-service";
 import labyrinthRepo from "../repositories/labyrinth-repo";
+import backtrackRepo from "../repositories/backtrack-repo";
+import NextMoveDirectionFactory from '../factories/next-move-direction-factory';
 
 class PointConnectionService {
 
-    public async connectPointsNew(startCoord: Point, endCoord: Point) {
-        await this.makeMoves(startCoord, endCoord, 0);
+    public async connectPointsNew(startCoord: Point, endCoord: Point, tooFar: number) {
+        await this.makeMoves(startCoord, startCoord, endCoord, 0, tooFar);
+        await this.cleanState();
     }
 
-    private async makeMoves(currentCoord: Point, endCoord: Point, i: number): Promise<Point> {
-        const currentPoint = await labyrinthRepo.getPointX(currentCoord.x, currentCoord.y);
-        const options = generationService.getAvailableOptions(currentPoint);
-
+    private async makeMoves(currentCoord: Point, startCoord: Point, endCoord: Point, i: number, tooFar: number): Promise<Point> {
+        const currentPoint = await labyrinthRepo.getPoint(currentCoord.x, currentCoord.y);
+        const options = currentPoint.getAvailableOptions();
         let nextPoint;
         if (options.length > 0) {
-            let directionalProbabilities = moveOptionsService.availableOptionsProbabilitiesNew(currentPoint, endCoord, options);
-            let nextMoveDirection = directionRandomizationService.getRandomDirection(directionalProbabilities);
-            let newPoint = await movingService.move(currentPoint, nextMoveDirection, endCoord);
+            const nextMoveDirection = new NextMoveDirectionFactory(currentPoint, endCoord).getRandomDirection();
+            let newPoint = await movingService.move(currentPoint, nextMoveDirection, startCoord, endCoord, tooFar);
             nextPoint = newPoint;
         } else {
             nextPoint = currentPoint.parentPoint();
         }
-
-        console.log(nextPoint.x + " " + nextPoint.y);
+        
         if (nextPoint.hasSameCoordinates(endCoord)/*|| i > 1000*/) {
             return nextPoint;
         } else {
-            return await this.makeMoves(nextPoint, endCoord, i + 1);
+            return await this.makeMoves(nextPoint, startCoord, endCoord, i + 1, tooFar);
         }        
     }
 
-    connectPoints(startPoint: Point, endPoint: Point) {
-        let currentPoint = startPoint;
-        var path = new Path([startPoint]);
-        let safeguard = 1;
-        while (!_.isEqual(currentPoint, endPoint)) {
-            var directionalProbabilities = new Array<DirectionalProbability>();
-
-            // We are doing this to make sure, that current point has moving options.
-            // In the case it is closed down by a path around it. Backtrack to the 
-            // point which has open options.
-            while (directionalProbabilities.length == 0) {
-                currentPoint = backtrackingService.getLastOpenPoint(path);
-                directionalProbabilities = moveOptionsService.availableOptionsProbabilities(path, currentPoint, endPoint);
-            }
-
-            // Get random option for the next moving direction. And assign point,
-            // which is at that direction to the current point
-            let directionRandomizer = new DirectionRandomizer(directionalProbabilities);
-            let direction = directionRandomizer.randomDirection();
-            currentPoint = currentPoint.pointInDirection(direction);
-
-            // And add it to the path of course :)
-            path.add(currentPoint);
-
-            safeguard++;
-            if (safeguard > 10000) {
-                console.log(path.length);
-                console.log(path);
-                throw new Error("Could not connect points, safeguard was hit!");
-            }
-        }
-
-        return path;
+    private async cleanState() {
+        await labyrinthRepo.cleanState();
+        await backtrackRepo.cleanState();
     }
 }
 

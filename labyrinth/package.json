@@ -12,7 +12,8 @@
         "test": "mocha ./test/**/*-test.ts --require ts-node/register",
         "init-tables": "ts-node ./src/init/init-tables.ts",
         "init-test-data": "ts-node ./src/init/init-test-data.ts",
-        "init-png": "ts-node ./src/init/init-png.ts"
+        "init-png": "ts-node ./src/init/init-png.ts",
+        "init-spiral-lab": "ts-node ./src/init/init-spiral-lab.ts"
     },
     "dependencies": {
         "cors": "2.8.4",
