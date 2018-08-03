@@ -1,0 +1,20 @@
+div.row {
+    display: flex;
+    justify-content: center;
+    background-color: green;
+}
+
+@media (orientation: landscape) {
+    app-block {
+        width: 10vh;
+        height: 10vh;
+    }
+}
+
+@media (orientation: portrait) {
+    app-block {
+        width: 10vw;
+        height: 10vw;
+    }
+}
+

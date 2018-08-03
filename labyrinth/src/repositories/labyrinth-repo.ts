@@ -7,6 +7,35 @@ import BacktrackStatus from '../enums/backtrack-status';
 import backtrackRepo from "./backtrack-repo";
 
 class LabyrinthRepo {
+    public async getPlayerPoint(player: string): Promise<Point> {
+        const queryResult = await new QueryBuilder()
+            .query(
+                "select l.x, l.y, l.north, l.south, l.east, l.west " +
+                "from player as p                                  " +
+                "inner join labyrinth l on p.x = l.x and p.y = l.y " +
+                "where p.name = $1                                 "
+                , [player]
+            );
+        const firstRow = queryResult.rows[0];
+        return new Point(
+            firstRow.x, firstRow.y,
+            firstRow.north, firstRow.south, firstRow.east, firstRow.west
+        );
+    }
+
+    public async move(player: string, x: number, y: number): Promise<void> {
+        const queryResult = await new QueryBuilder()
+            .query(
+                "update player  " +
+                "set            " +
+                "x = $1,        " +
+                "y = $2         " +
+                "where name = $3"
+                , [x, y, player]
+            );
+        return;
+    }
+
     public getPoint(x: number, y: number): Promise<Point> {
         return new QueryBuilder()
             .query(
@@ -46,7 +75,7 @@ class LabyrinthRepo {
     }
 
     // returns directions, where neigbour points exist
-    public getNeighbourPointDirections(x: number, y: number): Promise<Array<Direction>> {
+    public getNeighbourDirections(x: number, y: number): Promise<Array<Direction>> {
         return new QueryBuilder()
             .query(
                 "select 'NORTH' d     " +

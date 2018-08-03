@@ -1,32 +1,20 @@
 {
-    "name": "@kta/labyrinth",
+    "name": "@kta/labyrinth-fron-end",
     "version": "1.0.0",
     "description": "A basic labyrinth application, exposes API to create a labyrinth, add 'points' to it, where each point can have a list of labels.",
     "license": "UNLICENSED",
     "author": "Karolis Tarasaitis <karolistarasaitis@gmail.com>",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-        "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-        "develop-on-build": "nodemon ./dist/bundle.js",
-        "develop-on-save": "webpack --watch",
-        "test": "mocha ./test/**/*-test.ts --require ts-node/register",
-        "init-tables": "ts-node ./src/init/init-tables.ts",
-        "init-test-data": "ts-node ./src/init/init-test-data.ts",
-        "init-png": "ts-node ./src/init/init-png.ts",
-        "init-spiral-lab": "ts-node ./src/init/init-spiral-lab.ts"
+        "develop-on-save": "webpack --watch"
     },
     "dependencies": {
         "express": "4.16.3",
         "cors": "2.8.4",
         "lodash": "4.17.10",
-        "pg": "7.4.3",
-        "jimp": "0.2.28"
+        "move-js": "0.5.0"
     },
     "devDependencies": {
         "@types/lodash": "4.14.110",
-        "@types/mocha": "5.2.3",
-        "@types/chai": "4.1.4",
-        "@types/pg": "7.4.10",
         "@types/es6-promise": "3.3.0",
         "@types/express": "4.16.0",
         "@types/node": "10.5.2",
@@ -35,13 +23,13 @@
         "ts-loader": "4.4.1",
         "ts-node": "7.0.0",
         "tslint": "5.10.0",
-        "cross-env": "^5.0.5",
+        "html-loader": "0.5.5",
+        "file-loader": "1.1.11",
         "webpack": "4.11.1",
         "webpack-cli": "3.0.3",
         "webpack-node-externals": "1.7.2",
         "nodemon": "1.17.5",
         "nodemon-webpack-plugin": "next",
-        "mocha": "5.2.0",
-        "chai": "4.1.2"
+        "copy-webpack-plugin": "4.5.2"
     }
 }
