@@ -5,16 +5,16 @@ div.row {
 }
 
 @media (orientation: landscape) {
-    app-block {
-        width: 10vh;
-        height: 10vh;
+    app-point {
+        width: 3.33vh;
+        height: 3.33vh;
     }
 }
 
 @media (orientation: portrait) {
-    app-block {
-        width: 10vw;
-        height: 10vw;
+    app-point {
+        width: 3.33vw;
+        height: 3.33vw;
     }
 }
 

@@ -1,5 +1,6 @@
-<div *ngFor="let rowIndex of blocks" class="row">
-  
+<div tabindex="0" (keyup.w)="moveNorth($event)" (keyup.s)="moveSouth($event)" (keyup.d)="moveEast($event)" (keyup.a)="moveWest($event)">
+  <div class="row" *ngFor="let row of labyrinth, let rowIndex = index">
+    <app-point [point]="col" *ngFor="let col of labyrinth[rowIndex], let colIndex = index">
+    </app-point>
+  </div>
 </div>
-
-{{ visibleRadius }}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import Point from '../../models/point';
 
 @Component({
@@ -7,11 +7,9 @@ import Point from '../../models/point';
   styleUrls: ['./point.component.css']
 })
 export class PointComponent implements OnInit {
-  point: Point;
+  @Input() point: Point;
 
-  constructor(point: Point) {
-    this.point = point;
-  }
+  constructor() {}
 
   ngOnInit() {
   }

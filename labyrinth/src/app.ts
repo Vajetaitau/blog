@@ -16,7 +16,7 @@ class App {
         app.use(bodyParser.urlencoded());
         app.use(bodyParser.json());
         app.use("/home", homeController.router);
-        app.use("/play", playingController.router);
+        app.use("/playing", playingController.router);
         app.use("/player", playerController.router);
 
         app.listen(3000, () => console.log("Example app listening on port 3000!"));

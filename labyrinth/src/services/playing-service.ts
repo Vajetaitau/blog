@@ -1,9 +1,14 @@
 import labyrinthRepo from "../repositories/labyrinth-repo";
 import Point from "../models/point";
+import Player from "../models/player";
 import Direction from '../enums/direction';
 import DirectionStatus from '../enums/direction-status';
 
 class PlayingService {
+    public async getPlayer(player: string): Promise<Player> {
+        const playerPoint =  await labyrinthRepo.getPlayerPoint(player);
+        return new Player(player, playerPoint.x, playerPoint.y, 10);
+    }
     public async getVisiblePoints(player: string): Promise<Array<Point>> {
         return await labyrinthRepo.getVisiblePoints(player);
     }

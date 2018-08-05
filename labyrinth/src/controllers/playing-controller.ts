@@ -11,7 +11,7 @@ class PlayingController {
     }
 
     private getPoints() {
-        this._router.get("/", async (request, response) => {
+        this._router.get("/points", async (request, response) => {
             const playerName = request.query.playerName;
             const visiblePoints = await playingService.getVisiblePoints(playerName);
             response.send(visiblePoints);

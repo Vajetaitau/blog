@@ -1,3 +1,8 @@
-<p>
-  point works!
-</p>
+<div class="x30" 
+  [class.north]="point.north === 'CLOSED'" 
+  [class.west]="point.west === 'CLOSED'"
+  [class.hasPlayer]="point.hasPlayer">
+  <!--[class.south]="point.south === 'CLOSED'" -->
+  <!--[class.east]="point.east === 'CLOSED'"-->
+  <!--{{point.x !== -100 ? point.x : ""}} {{point.y !== -100 ? point.y : ""}}-->
+</div>
