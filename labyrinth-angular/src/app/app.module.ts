@@ -1,18 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BlockComponent } from './block/block.component';
 import { BlockContainerComponent } from './block-container/block-container.component';
+import { PointComponent } from './components/point/point.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BlockComponent,
-    BlockContainerComponent
+    BlockContainerComponent,
+    PointComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

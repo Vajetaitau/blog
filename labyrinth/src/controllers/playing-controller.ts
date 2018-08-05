@@ -6,20 +6,15 @@ class PlayingController {
 
     constructor() {
         this._router = express.Router();
-        this.getPoint();
+        this.getPoints();
         this.move();
     }
 
-    private getPoint() {
+    private getPoints() {
         this._router.get("/", async (request, response) => {
             const playerName = request.query.playerName;
-            const point = await playingService.getPoint(playerName);
-            response.send({
-                north: point.north,
-                south: point.south,
-                east: point.east,
-                west: point.west
-            });
+            const visiblePoints = await playingService.getVisiblePoints(playerName);
+            response.send(visiblePoints);
         })
     }
 

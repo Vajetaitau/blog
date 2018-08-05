@@ -23,6 +23,21 @@ class LabyrinthRepo {
         );
     }
 
+    public async getVisiblePoints(player: string): Promise<Array<Point>> {
+        const queryResult = await new QueryBuilder()
+            .query(
+                "select l.x, l.y, l.north, l.south, l.east, l.west                    " +
+                "from player as p                                                     " +
+                "inner join labyrinth as l on (p.x + $2 >= l.x) and (p.x - $2 <= l.x) " +
+                "                         and (p.y + $2 >= l.y) and (p.y - $2 <= l.y) " +
+                "where p.name = $1                                                    "
+                , [player, 10]
+            );
+        return queryResult.rows.map(r => {
+            return new Point(r.x, r.y, r.north, r.south, r.east, r.west);
+        });
+    }
+
     public async move(player: string, x: number, y: number): Promise<void> {
         const queryResult = await new QueryBuilder()
             .query(

@@ -4,8 +4,8 @@ import Direction from '../enums/direction';
 import DirectionStatus from '../enums/direction-status';
 
 class PlayingService {
-    public async getPoint(player: string): Promise<Point> {
-        return await labyrinthRepo.getPlayerPoint(player);
+    public async getVisiblePoints(player: string): Promise<Array<Point>> {
+        return await labyrinthRepo.getVisiblePoints(player);
     }
     public async move(player: string, direction: Direction): Promise<Point> {
         const currentPoint = await labyrinthRepo.getPlayerPoint(player);

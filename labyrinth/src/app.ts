@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import * as Cors from "cors";
 import { homeController } from './controllers/home-controller';
 import { playingController } from './controllers/playing-controller';
+import { playerController } from './controllers/player-controller';
 
 class App {
     constructor() {
@@ -16,6 +17,7 @@ class App {
         app.use(bodyParser.json());
         app.use("/home", homeController.router);
         app.use("/play", playingController.router);
+        app.use("/player", playerController.router);
 
         app.listen(3000, () => console.log("Example app listening on port 3000!"));
     }
